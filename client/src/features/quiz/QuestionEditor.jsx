@@ -74,7 +74,7 @@ const QuestionEditor = ({ question, onChange }) => {
                             <button
                                 onClick={() => handleCorrectAnswerChange(index)}
                                 className={`
-                  w-8 h-8 rounded-full border-2 border-white flex items-center justify-center transition-all
+                  w-8 h-8 rounded-full border-2 border-white flex items-center justify-center transition-all active:scale-95
                   ${question.correctAnswer === index ? 'bg-white text-green-500' : 'hover:bg-white/20 text-transparent'}
                 `}
                             >

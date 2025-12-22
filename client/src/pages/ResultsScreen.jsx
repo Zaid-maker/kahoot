@@ -70,25 +70,27 @@ const ResultsScreen = ({ isHost, question, playerAnswer, onNext }) => {
     const points = isCorrect ? 850 : 0;
 
     return (
-        <div className={`min-h-screen flex flex-col ${isCorrect ? 'bg-green-500' : 'bg-red-500'} text-white p-8 text-center`}>
+        <div className={`min-h-screen flex flex-col ${isCorrect ? 'bg-green-500' : 'bg-red-500'} text-white p-6 md:p-8 text-center transition-colors duration-500`}>
             <div className="flex-grow flex flex-col items-center justify-center">
-                <h1 className="text-6xl font-black mb-4 tracking-tighter drop-shadow-lg">
+                <h1 className="text-5xl md:text-7xl font-black mb-4 tracking-tighter drop-shadow-xl animate-bounce">
                     {isCorrect ? 'CORRECT!' : 'INCORRECT'}
                 </h1>
-                <div className="text-9xl mb-8">
+                <div className="text-8xl md:text-9xl mb-8 drop-shadow-lg">
                     {isCorrect ? '✅' : '❌'}
                 </div>
 
-                <div className="bg-black/20 p-8 rounded-3xl backdrop-blur-sm">
-                    <p className="text-xl font-bold uppercase opacity-80 mb-2">Points Earned</p>
-                    <p className="text-6xl font-black">+{points}</p>
+                <div className="bg-black/20 p-6 md:p-8 rounded-[2rem] backdrop-blur-md border-2 border-white/10 shadow-xl w-full max-w-xs mx-auto">
+                    <p className="text-lg md:text-xl font-bold uppercase opacity-80 mb-2">Points Earned</p>
+                    <p className="text-5xl md:text-6xl font-black">+{points}</p>
                 </div>
             </div>
 
-            <div className="mt-8">
-                <p className="text-xl font-bold italic opacity-80 animate-pulse">
-                    Waiting for host to move to next question...
-                </p>
+            <div className="mt-8 mb-4">
+                <div className="inline-block bg-black/10 px-6 py-3 rounded-full backdrop-blur-sm">
+                    <p className="text-sm md:text-xl font-bold italic opacity-90 animate-pulse">
+                        Waiting for host to move on...
+                    </p>
+                </div>
             </div>
         </div>
     );

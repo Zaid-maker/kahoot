@@ -76,31 +76,35 @@ const QuestionScreen = ({ isHost, question, onAnswer, onTimeUp }) => {
 
     // Player View
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col p-4">
-            <div className="flex justify-between items-center mb-6">
-                <div className="bg-purple-600 text-white px-4 py-1 rounded-full text-sm font-bold">
+        <div className="fixed inset-0 bg-gray-50 flex flex-col p-2 md:p-4 overflow-hidden">
+            <div className="flex justify-between items-center mb-2 md:mb-4 px-2 pt-2">
+                <div className="bg-purple-600 text-white px-4 py-1 rounded-full text-xs md:text-sm font-bold shadow-sm">
                     1 of 10
                 </div>
-                <div className="text-purple-600 text-xl font-black">{timeLeft}s</div>
+                <div className="bg-white/80 backdrop-blur-sm px-4 py-1 rounded-full text-purple-600 text-lg md:text-xl font-black shadow-sm">
+                    {timeLeft}s
+                </div>
             </div>
 
             {!hasAnswered ? (
-                <div className="flex-grow grid grid-cols-2 gap-4">
+                <div className="flex-grow grid grid-cols-2 gap-2 md:gap-4 pb-2">
                     {colors.map((color, index) => (
                         <button
                             key={index}
                             onClick={() => handleAnswerClick(index)}
-                            className={`${color} rounded-2xl shadow-[0_6px_0_0_rgba(0,0,0,0.2)] active:shadow-none active:translate-y-2 transition-all flex items-center justify-center text-6xl text-white`}
+                            className={`${color} rounded-xl md:rounded-2xl shadow-[0_4px_0_0_rgba(0,0,0,0.2)] md:shadow-[0_6px_0_0_rgba(0,0,0,0.2)] active:shadow-none active:translate-y-1 md:active:translate-y-2 active:scale-95 transition-all flex items-center justify-center text-4xl md:text-6xl text-white`}
                         >
-                            {shapes[index]}
+                            <span className="drop-shadow-md">{shapes[index]}</span>
                         </button>
                     ))}
                 </div>
             ) : (
-                <div className="flex-grow flex flex-col items-center justify-center text-center">
-                    <div className="text-8xl mb-6 animate-pulse">⏳</div>
-                    <h2 className="text-3xl font-black text-purple-600 mb-2">Check the screen!</h2>
-                    <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">Waiting for other players...</p>
+                <div className="flex-grow flex flex-col items-center justify-center text-center p-6 bg-purple-50 rounded-3xl m-2 border-4 border-dashed border-purple-200">
+                    <div className="text-6xl md:text-8xl mb-4 animate-pulse">⏳</div>
+                    <h2 className="text-2xl md:text-3xl font-black text-purple-600 mb-2">Check the screen!</h2>
+                    <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px] md:text-xs">
+                        Waiting for other players...
+                    </p>
                 </div>
             )}
         </div>

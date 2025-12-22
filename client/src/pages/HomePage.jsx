@@ -21,7 +21,7 @@ const HomePage = ({ onJoinClick, onHostClick }) => {
                         <Button
                             variant="primary"
                             fullWidth
-                            className="text-xl py-4"
+                            className="text-xl py-4 active:scale-95 transition-transform"
                             onClick={onHostClick}
                         >
                             Host a Game
@@ -39,7 +39,7 @@ const HomePage = ({ onJoinClick, onHostClick }) => {
                         <Button
                             variant="sky"
                             fullWidth
-                            className="text-xl py-4 bg-sky-500 hover:bg-sky-600"
+                            className="text-xl py-4 bg-sky-500 hover:bg-sky-600 active:scale-95 transition-transform"
                             onClick={onJoinClick}
                         >
                             Join a Game

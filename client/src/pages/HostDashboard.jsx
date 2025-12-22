@@ -21,7 +21,7 @@ const HostDashboard = ({ onBack, onCreateQuiz, onPlayQuiz }) => {
                         <h1 className="text-3xl font-bold text-gray-800">My Quizzes</h1>
                         <p className="text-gray-500">Manage and host your game sessions</p>
                     </div>
-                    <Button variant="success" onClick={onCreateQuiz}>
+                    <Button variant="success" onClick={onCreateQuiz} className="active:scale-95 transition-transform">
                         Create New
                     </Button>
                 </div>
@@ -41,12 +41,12 @@ const HostDashboard = ({ onBack, onCreateQuiz, onPlayQuiz }) => {
                                     <Button
                                         variant="primary"
                                         fullWidth
-                                        className="py-2 text-sm"
+                                        className="py-2 text-sm active:scale-95 transition-transform"
                                         onClick={() => onPlayQuiz(quiz)}
                                     >
                                         Play
                                     </Button>
-                                    <Button variant="secondary" className="py-2 text-sm px-4">
+                                    <Button variant="secondary" className="py-2 text-sm px-4 active:scale-95 transition-transform">
                                         Edit
                                     </Button>
                                 </div>

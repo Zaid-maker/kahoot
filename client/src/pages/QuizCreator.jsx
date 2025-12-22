@@ -58,8 +58,8 @@ const QuizCreator = ({ onSave, onCancel }) => {
                     />
                 </div>
                 <div className="flex gap-2">
-                    <Button variant="secondary" onClick={onCancel} className="px-4 py-2">Exit</Button>
-                    <Button variant="success" onClick={handleSave} className="px-6 py-2">Save</Button>
+                    <Button variant="secondary" onClick={onCancel} className="px-4 py-2 active:scale-95 transition-transform">Exit</Button>
+                    <Button variant="success" onClick={handleSave} className="px-6 py-2 active:scale-95 transition-transform">Save</Button>
                 </div>
             </div>
 
@@ -97,7 +97,7 @@ const QuizCreator = ({ onSave, onCancel }) => {
                         ))}
                     </div>
                     <div className="p-4 border-t sticky bottom-0 bg-white">
-                        <Button variant="primary" fullWidth onClick={addQuestion}>
+                        <Button variant="primary" fullWidth onClick={addQuestion} className="active:scale-95 transition-transform">
                             Add Question
                         </Button>
                     </div>

@@ -24,29 +24,32 @@ const JoinPage = ({ onJoin, onBack }) => {
     };
 
     return (
-        <div className="min-h-screen bg-sky-500 flex flex-col justify-center">
+        <div className="min-h-screen bg-sky-500 flex flex-col justify-center px-4 py-8">
             <Container className="text-center">
                 <div className="mb-8">
-                    <h1 className="text-5xl font-black text-white mb-2 tracking-tighter drop-shadow-md">
+                    <h1 className="text-4xl md:text-5xl font-black text-white mb-2 tracking-tighter drop-shadow-md">
                         JOIN GAME
                     </h1>
                 </div>
 
-                <Card className="max-w-sm mx-auto p-8 border-b-4 border-gray-300">
+                <Card className="w-full max-w-sm mx-auto p-6 md:p-8 border-b-4 border-gray-300">
                     {step === 1 ? (
                         <form onSubmit={handlePinSubmit} className="space-y-4">
                             <Input
                                 placeholder="Game PIN"
                                 value={pin}
                                 onChange={(e) => setPin(e.target.value)}
-                                className="text-2xl py-4"
+                                className="text-2xl py-4 text-center"
+                                type="text"
+                                inputMode="numeric"
+                                pattern="[0-9]*"
                                 required
                             />
                             <Button
                                 variant="primary"
                                 type="submit"
                                 fullWidth
-                                className="py-4 text-xl bg-purple-600"
+                                className="py-4 text-xl bg-purple-600 active:scale-95 transition-transform"
                                 disabled={pin.length < 4}
                             >
                                 Enter
@@ -58,14 +61,14 @@ const JoinPage = ({ onJoin, onBack }) => {
                                 placeholder="Nickname"
                                 value={nickname}
                                 onChange={(e) => setNickname(e.target.value)}
-                                className="text-2xl py-4"
+                                className="text-2xl py-4 text-center"
                                 required
                             />
                             <Button
                                 variant="success"
                                 type="submit"
                                 fullWidth
-                                className="py-4 text-xl"
+                                className="py-4 text-xl active:scale-95 transition-transform"
                                 disabled={!nickname.trim()}
                             >
                                 OK, go!
@@ -76,7 +79,7 @@ const JoinPage = ({ onJoin, onBack }) => {
 
                 <button
                     onClick={onBack}
-                    className="mt-8 text-white font-bold hover:underline"
+                    className="mt-8 text-white font-bold hover:underline opacity-80 active:opacity-100 active:scale-95 transition-transform"
                 >
                     Back to Home
                 </button>
