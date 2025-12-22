@@ -9,7 +9,7 @@ const HomePage = ({ onJoinClick, onHostClick }) => {
             <Container className="text-center">
                 <div className="mb-12">
                     <h1 className="text-6xl font-black text-white mb-4 tracking-tighter drop-shadow-lg">
-                        KAHOOT!<span className="text-sky-400">Clone</span>
+                        QUIZLY
                     </h1>
                     <p className="text-purple-100 text-xl font-medium">
                         Learn, play, and create together!

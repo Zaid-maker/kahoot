@@ -50,7 +50,7 @@ const QuestionScreen = ({ isHost, question, onAnswer, onTimeUp }) => {
 
                         {/* Mock Media Area */}
                         <div className="flex-grow max-w-2xl mx-12 aspect-video bg-white rounded-2xl shadow-lg flex items-center justify-center">
-                            <span className="text-8xl opacity-10 font-black">KAHOOT!</span>
+                            <span className="text-8xl opacity-10 font-black">QUIZLY</span>
                         </div>
 
                         {/* Answer Count */}
