@@ -6,11 +6,13 @@ import HostDashboard from './pages/HostDashboard';
 import QuizCreator from './pages/QuizCreator';
 import Lobby from './pages/Lobby';
 import QuestionScreen from './pages/QuestionScreen';
+import ResultsScreen from './pages/ResultsScreen';
 
 function App() {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState(null); // 'host' or 'player'
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [playerAnswer, setPlayerAnswer] = useState(null);
   const [lobbyData, setLobbyData] = useState({
     pin: '',
     players: [],
@@ -66,15 +68,29 @@ function App() {
   const handleStartGame = () => {
     console.log('Starting game!');
     setCurrentQuestionIndex(0);
+    setPlayerAnswer(null);
     navigate('/game');
   };
 
   const handleAnswer = (index) => {
     console.log(`Player answered with: ${index}`);
+    setPlayerAnswer(index);
   };
 
   const handleTimeUp = () => {
     console.log('Time is up!');
+    navigate('/results');
+  };
+
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setPlayerAnswer(null);
+      navigate('/game');
+    } else {
+      console.log('Game finished!');
+      navigate('/host');
+    }
   };
 
   return (
@@ -119,6 +135,14 @@ function App() {
             question={questions[currentQuestionIndex]}
             onAnswer={handleAnswer}
             onTimeUp={handleTimeUp}
+          />
+        } />
+        <Route path="/results" element={
+          <ResultsScreen
+            isHost={userRole === 'host'}
+            question={questions[currentQuestionIndex]}
+            playerAnswer={playerAnswer}
+            onNext={handleNextQuestion}
           />
         } />
       </Routes>
