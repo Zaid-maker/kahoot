@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import { io } from 'socket.io-client';
 import HomePage from './pages/HomePage';
 import JoinPage from './pages/JoinPage';
 import HostDashboard from './pages/HostDashboard';
@@ -8,6 +9,8 @@ import Lobby from './pages/Lobby';
 import QuestionScreen from './pages/QuestionScreen';
 import ResultsScreen from './pages/ResultsScreen';
 import Podium from './pages/Podium';
+
+const socket = io('http://localhost:3000');
 
 function App() {
   const navigate = useNavigate();
@@ -19,6 +22,46 @@ function App() {
     players: [],
     quizTitle: ''
   });
+
+  useEffect(() => {
+    socket.on('player-list-update', (players) => {
+      setLobbyData(prev => ({ ...prev, players }));
+    });
+
+    socket.on('join-success', (data) => {
+      setLobbyData(prev => ({ ...prev, quizTitle: data.quizTitle, pin: data.pin, players: data.players }));
+      navigate('/lobby');
+    });
+
+    socket.on('results-reveal', () => {
+      navigate('/results');
+    });
+
+    socket.on('next-question-start', (data) => {
+      setCurrentQuestionIndex(data.index);
+      setPlayerAnswer(null);
+      navigate('/game');
+    });
+
+    socket.on('answer-received', (data) => {
+      // Host side: increment answer count (optional visual feedback)
+      console.log('Answer received by server:', data);
+    });
+
+    socket.on('join-error', (error) => {
+      alert(error);
+    });
+
+    return () => {
+      socket.off('player-list-update');
+      socket.off('join-success');
+      socket.off('game-started');
+      socket.off('results-reveal');
+      socket.off('next-question-start');
+      socket.off('answer-received');
+      socket.off('join-error');
+    };
+  }, [navigate]);
 
   const [questions] = useState([
     {
@@ -42,22 +85,20 @@ function App() {
   const handleJoinGame = (data) => {
     console.log('Joining game with:', data);
     setUserRole('player');
-    setLobbyData({
-      pin: data.pin,
-      players: ['You', 'QuizMaster', 'LuckyDuck'], // Mock players
-      quizTitle: 'Waiting for Host...'
-    });
-    navigate('/lobby');
+    setLobbyData(prev => ({ ...prev, pin: data.pin }));
+    socket.emit('player-join-room', { pin: data.pin, nickname: data.nickname });
   };
 
   const handleHostGame = (quiz) => {
-    console.log('Hosting quiz:', quiz);
+    const pin = Math.floor(100000 + Math.random() * 900000).toString();
+    console.log('Hosting quiz:', quiz, 'PIN:', pin);
     setUserRole('host');
     setLobbyData({
-      pin: Math.floor(100000 + Math.random() * 900000).toString(),
-      players: ['QuizMaster', 'LuckyDuck'],
+      pin: pin,
+      players: [],
       quizTitle: quiz.title
     });
+    socket.emit('host-create-room', { pin, quizTitle: quiz.title });
     navigate('/lobby');
   };
 
@@ -68,26 +109,25 @@ function App() {
 
   const handleStartGame = () => {
     console.log('Starting game!');
-    setCurrentQuestionIndex(0);
-    setPlayerAnswer(null);
-    navigate('/game');
+    socket.emit('start-game', lobbyData.pin);
   };
 
   const handleAnswer = (index) => {
     console.log(`Player answered with: ${index}`);
     setPlayerAnswer(index);
+    socket.emit('submit-answer', { pin: lobbyData.pin, answerIndex: index });
   };
 
   const handleTimeUp = () => {
-    console.log('Time is up!');
-    navigate('/results');
+    if (userRole === 'host') {
+      console.log('Time is up! Showing results...');
+      socket.emit('show-results', lobbyData.pin);
+    }
   };
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setPlayerAnswer(null);
-      navigate('/game');
+      socket.emit('next-question', lobbyData.pin);
     } else {
       console.log('Game finished!');
       navigate('/podium');
