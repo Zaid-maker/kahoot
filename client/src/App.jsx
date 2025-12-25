@@ -7,6 +7,7 @@ import QuizCreator from './pages/QuizCreator';
 import Lobby from './pages/Lobby';
 import QuestionScreen from './pages/QuestionScreen';
 import ResultsScreen from './pages/ResultsScreen';
+import Podium from './pages/Podium';
 
 function App() {
   const navigate = useNavigate();
@@ -89,7 +90,7 @@ function App() {
       navigate('/game');
     } else {
       console.log('Game finished!');
-      navigate('/host');
+      navigate('/podium');
     }
   };
 
@@ -143,6 +144,11 @@ function App() {
             question={questions[currentQuestionIndex]}
             playerAnswer={playerAnswer}
             onNext={handleNextQuestion}
+          />
+        } />
+        <Route path="/podium" element={
+          <Podium
+            onFinish={() => navigate('/')}
           />
         } />
       </Routes>
